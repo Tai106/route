@@ -19,21 +19,31 @@ def load_tasks():
     except:
         return {"tasks": []}
 
-def save_tasks():
-    pass
+def save_tasks(tasks):
+    try:
+        with open(file_name, "w") as file:
+            json.dump(tasks, file)
+    except:
+        return {"Failed to save."}
+
+    
 
 def view_tasks():
     pass
 
-def create_task():
-    pass
+def create_task(tasks):
+    description = input("Enter the task description: ").strip()
+    if description:
+        tasks["tasks"].append({"description": description, "complete": False})
 
 def mark_task_complete():
     pass
 
 def main():
+    save_tasks({"tasks": ["saved task"]})
     tasks = load_tasks()
     print(tasks)
+    
     
     while True:
         print("\nTo-Do List Manager")
