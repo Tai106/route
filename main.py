@@ -28,13 +28,25 @@ def save_tasks(tasks):
 
     
 
-def view_tasks():
-    pass
-
+def view_tasks(tasks):
+    task_list = tasks["tasks"]
+    if len(task_list) == 0:
+        print("No tasks to display.")
+    else:
+        print("Your To-Do List: ")
+        for idx, task in enumerate(task_list):
+            status = "[Completed]" if task["complete"] else "[pending]"
+            print(f"{idx + 1}. {task['description']} | {status}")
+        
+        
 def create_task(tasks):
     description = input("Enter the task description: ").strip()
     if description:
         tasks["tasks"].append({"description": description, "complete": False})
+        save_tasks(tasks)
+        print("Task added!")
+    else:
+        print("Description cannot be empty.")
 
 def mark_task_complete():
     pass
@@ -57,7 +69,7 @@ def main():
         if choice == "1":
             view_tasks()
         elif choice == "2":
-            create_task()
+            create_task(tasks)
         elif choice == "3":
             mark_task_complete()
         elif choice == "4":
