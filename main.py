@@ -7,12 +7,12 @@
 # 6. Delete a task 
 
 import json
-{"task": [
-    {"task": "task is this", "complete": True}
-]}
 
 file_name = "todo_list.json"
 
+{"task": [
+    {"task": "task is this", "complete": True}
+]}
 
 def load_tasks():
     try:
@@ -26,10 +26,8 @@ def save_tasks(tasks):
         with open(file_name, "w") as file:
             json.dump(tasks, file)
     except:
-        return {"Failed to save, Please try again."}
-
-    
-
+        print("Failed to save, Please try again.")
+  
 def view_tasks(tasks):
     print()
     task_list = tasks["tasks"]
@@ -40,8 +38,7 @@ def view_tasks(tasks):
         for idx, task in enumerate(task_list):
             status = "[Completed]" if task["complete"] else "[Pending]"
             print(f"{idx + 1}. {task['description']} | {status}")
-        
-        
+              
 def create_task(tasks):
     description = input("Enter the task description: ").strip()
     if description:
@@ -55,7 +52,7 @@ def mark_task_complete(tasks):
     view_tasks(tasks)
     try:
         task_number = int(input("Enter the task number to mark as complete: ").strip())
-        if 1 <= task_number <= len(tasks):
+        if 1 <= task_number <= len(tasks["tasks"]):
             tasks["tasks"][task_number - 1]["complete"] = True
             save_tasks(tasks)
             print("Task marked as complete.")
@@ -65,10 +62,7 @@ def mark_task_complete(tasks):
         print("Enter a valid number.")
         
 def main():
-    save_tasks({"tasks": ["saved task"]})
     tasks = load_tasks()
-    print(tasks)
-    
     
     while True:
         print("\nTo-Do List Manager")
