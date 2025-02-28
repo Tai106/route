@@ -1,1 +1,8 @@
-{"tasks": ["saved task", {"description": "Do Laundry", "complete": false}, {"description": "code", "complete": false}, {"description": "Grocery Shopping", "complete": false}, {"description": "Grocery shopping", "complete": false}]}
+{
+    "tasks": [
+        {
+            "description": "Learn Java",
+            "complete": false
+        }
+    ]
+}

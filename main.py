@@ -17,27 +17,41 @@ file_name = "todo_list.json"
 def load_tasks():
     try:
         with open(file_name, "r") as file:
-            return json.load(file)
-    except:
+            data = json.load(file)
+            # Ensure the data is always a dictionary
+            if not isinstance(data, dict) or "tasks" not in data:
+                return {"tasks": []}
+            return data
+    except (FileNotFoundError, json.JSONDecodeError):
         return {"tasks": []}
+
 
 def save_tasks(tasks):
     try:
         with open(file_name, "w") as file:
-            json.dump(tasks, file)
-    except:
+            json.dump(tasks, file, indent=4)
+    except Exception as e:
         print("Failed to save, Please try again.")
   
 def view_tasks(tasks):
     print()
-    task_list = tasks["tasks"]
+    task_list = tasks.get("tasks", [])  # Ensure 'tasks' exists
+
+    if not isinstance(task_list, list):  # Ensure it is a list
+        print("Error: Task data is corrupted.")
+        return
+
     if len(task_list) == 0:
         print("No tasks to display.")
     else:
-        print("Your To-Do List: ")
+        print("Your To-Do List:")
         for idx, task in enumerate(task_list):
-            status = "[Completed]" if task["complete"] else "[Pending]"
-            print(f"{idx + 1}. {task['description']} | {status}")
+            if not isinstance(task, dict):  # Ensure each task is a dictionary
+                print(f"Error: Task {idx + 1} is corrupted.")
+                continue
+            status = "[Completed]" if task.get("complete", False) else "[Pending]"
+            print(f"{idx + 1}. {task.get('task', task)} | {status}")
+
               
 def create_task(tasks):
     description = input("Enter the task description: ").strip()
