@@ -41,7 +41,7 @@ def view_tasks(tasks):
             if not isinstance(task, dict):  # Ensure each task is a dictionary
                 print(f"Error: Task {idx + 1} is corrupted.")
                 continue
-            status = "[Completed]" if task["complete"] else "[Pending]"
+            status = "[Completed]" if task["complete"] else "[Incomplete]"
             print(f"{idx + 1}. {task['description']} | {status}")
               
 def create_task(tasks):
@@ -65,6 +65,19 @@ def mark_task_complete(tasks):
             print("Invalid task number.")
     except:
         print("Enter a valid number.")
+
+def mark_task_incomplete(tasks):
+    view_tasks(tasks)
+    try:
+        task_number = int(input("Enter the task number to mark as Incomplete: ").strip())
+        if 1 <= task_number <= len(tasks["tasks"]):
+            tasks["tasks"][task_number - 1]["complete"] = False
+            save_tasks(tasks)
+            print("Task marked as Incomplete.")
+        else:
+            print("Invalid task number.")
+    except:
+        print("Enter a valid number.")
         
 def main():
     tasks = load_tasks()
@@ -74,7 +87,8 @@ def main():
         print("1. View Tasks")
         print('2. Add Task')
         print("3. Complete Task")
-        print("4. Exit")
+        print("4. Incomplete Task")
+        print("5. Exit")
         
         choice = input("Enter your choice: ").strip()
         
@@ -85,6 +99,8 @@ def main():
         elif choice == "3":
             mark_task_complete(tasks)
         elif choice == "4":
+            mark_task_incomplete(tasks)
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
