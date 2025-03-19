@@ -78,6 +78,19 @@ def mark_task_incomplete(tasks):
             print("Invalid task number.")
     except:
         print("Enter a valid number.")
+
+def delete_task(tasks):
+    view_tasks(tasks)
+    try:
+        task_number = int(input("Enter the task number to delete: ").strip())
+        if 1 <= task_number <= len(tasks["tasks"]):
+            deleted_task = tasks["tasks"].pop(task_number - 1)
+            save_tasks(tasks)
+            print(f"Task '{deleted_task['description']}' deleted!")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
         
 def main():
     tasks = load_tasks()
@@ -88,7 +101,8 @@ def main():
         print('2. Add Task')
         print("3. Complete Task")
         print("4. Incomplete Task")
-        print("5. Exit")
+        print("5. Delete Task")
+        print("6. Exit")
         
         choice = input("Enter your choice: ").strip()
         
@@ -101,6 +115,8 @@ def main():
         elif choice == "4":
             mark_task_incomplete(tasks)
         elif choice == "5":
+            delete_task(tasks)
+        elif choice == "6":
             print("Goodbye!")
             break
         else:
